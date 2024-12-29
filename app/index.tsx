@@ -19,12 +19,31 @@ export default function Index() {
 			<View style={[styles.box, styles.center]}>
 				<Text style={styles.boxText}>C</Text>
 			</View>
+			<View
+				style={[
+					styles.box,
+					styles.center,
+					{
+						transform: [
+							{
+								translateX: 100,
+							},
+							{
+								translateY: -100,
+							},
+						],
+					},
+				]}
+			>
+				<Text style={styles.boxText}>C</Text>
+			</View>
 		</View>
 	);
 }
 
 const styles = StyleSheet.create({
 	box: {
+		position: "absolute",
 		width: 70,
 		aspectRatio: 1 / 1,
 		borderRadius: 35,
