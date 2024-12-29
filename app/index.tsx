@@ -1,42 +1,47 @@
 import { StyleSheet, Text, View } from "react-native";
+import Animated, {
+	useAnimatedStyle,
+	useSharedValue,
+	withTiming,
+} from "react-native-reanimated";
 
 export default function Index() {
+	const progress = useSharedValue(0);
+
+	const animatedStyle = useAnimatedStyle(() => {
+		return {
+			transform: [
+				{
+					translateX: progress.value * 1,
+				},
+				{
+					translateY: progress.value * -1,
+				},
+			],
+		};
+	});
+
 	return (
 		<View
 			style={[
 				{
 					flex: 1,
+					justifyContent: "center",
+					alignItems: "center",
 				},
-				styles.center,
 			]}
 			onTouchStart={() => {
 				console.log("touch start");
+				progress.value = withTiming(100);
 			}}
 			onTouchEnd={() => {
 				console.log("touch end");
+				progress.value = withTiming(0);
 			}}
 		>
-			<View style={[styles.box, styles.center]}>
+			<Animated.View style={[styles.box, styles.center, animatedStyle]}>
 				<Text style={styles.boxText}>C</Text>
-			</View>
-			<View
-				style={[
-					styles.box,
-					styles.center,
-					{
-						transform: [
-							{
-								translateX: 100,
-							},
-							{
-								translateY: -100,
-							},
-						],
-					},
-				]}
-			>
-				<Text style={styles.boxText}>C</Text>
-			</View>
+			</Animated.View>
 		</View>
 	);
 }
