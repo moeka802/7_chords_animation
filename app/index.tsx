@@ -11,9 +11,10 @@ const ChordComponent = ({
 	chord,
 	index,
 }: { progress: SharedValue<number>; chord: string; index: number }) => {
+	// progress: SharedValue 0から1にうごく
 	const animatedStyle = useAnimatedStyle(() => {
 		// 7つのコードで360度を分割
-		const angle = (2 * Math.PI) / 7;
+		const angle = (2 * Math.PI) / 7; // 円周を7等分した角度。
 		// 円の半径
 		const radius = 100;
 
