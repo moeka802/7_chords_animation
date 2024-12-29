@@ -39,9 +39,21 @@ export default function Index() {
 				progress.value = withTiming(0);
 			}}
 		>
-			<Animated.View style={[styles.box, styles.center, animatedStyle]}>
-				<Text style={styles.boxText}>C</Text>
-			</Animated.View>
+			{["C", "D", "E", "F", "G", "A", "B"].map((chord, i) => (
+				<Animated.View
+					key="i"
+					style={[
+						styles.box,
+						styles.center,
+						animatedStyle,
+						{
+							zIndex: -i,
+						},
+					]}
+				>
+					<Text style={styles.boxText}>{chord}</Text>
+				</Animated.View>
+			))}
 		</View>
 	);
 }
