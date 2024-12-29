@@ -9,6 +9,12 @@ export default function Index() {
 				},
 				styles.center,
 			]}
+			onTouchStart={() => {
+				console.log("touch start");
+			}}
+			onTouchEnd={() => {
+				console.log("touch end");
+			}}
 		>
 			<View style={[styles.box, styles.center]}>
 				<Text style={styles.boxText}>C</Text>
