@@ -4,22 +4,42 @@ import Animated, {
 	useSharedValue,
 	withTiming,
 } from "react-native-reanimated";
+import type { SharedValue } from "react-native-reanimated";
 
-export default function Index() {
-	const progress = useSharedValue(0);
-
+const ChordComponent = ({
+	progress,
+	chord,
+	index,
+}: { progress: SharedValue<number>; chord: string; index: number }) => {
 	const animatedStyle = useAnimatedStyle(() => {
+		// 7つのコードで360度を分割
+		const angle = (2 * Math.PI) / 7;
+		// 円の半径
+		const radius = 100;
+
+		const x = radius * Math.sin(angle * index) * progress.value;
+		const y = -radius * Math.cos(angle * index) * progress.value;
+
 		return {
 			transform: [
 				{
-					translateX: progress.value * 1,
+					translateX: x,
 				},
 				{
-					translateY: progress.value * -1,
+					translateY: y,
 				},
 			],
 		};
 	});
+	return (
+		<Animated.View style={[styles.box, styles.center, animatedStyle]}>
+			<Text style={styles.boxText}>{chord}</Text>
+		</Animated.View>
+	);
+};
+
+export default function Index() {
+	const progress = useSharedValue(0);
 
 	return (
 		<View
@@ -32,7 +52,7 @@ export default function Index() {
 			]}
 			onTouchStart={() => {
 				console.log("touch start");
-				progress.value = withTiming(100);
+				progress.value = withTiming(1);
 			}}
 			onTouchEnd={() => {
 				console.log("touch end");
@@ -40,19 +60,12 @@ export default function Index() {
 			}}
 		>
 			{["C", "D", "E", "F", "G", "A", "B"].map((chord, i) => (
-				<Animated.View
-					key="i"
-					style={[
-						styles.box,
-						styles.center,
-						animatedStyle,
-						{
-							zIndex: -i,
-						},
-					]}
-				>
-					<Text style={styles.boxText}>{chord}</Text>
-				</Animated.View>
+				<ChordComponent
+					progress={progress}
+					chord={chord}
+					index={i}
+					key={chord}
+				/>
 			))}
 		</View>
 	);
